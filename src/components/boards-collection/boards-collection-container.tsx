@@ -26,7 +26,7 @@ const BoardsCollectionContainer: React.FC<PropsType> = (props) => {
 
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
   return {
-    boards: state.boards
+    boards: state.boards.boards
   } 
 }
 

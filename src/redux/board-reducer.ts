@@ -1,63 +1,96 @@
-import { IBoardsCollection } from './../types/types';
+import { IBoardsState } from './../types/types';
 
 const ADD_NEW_BOARD = 'ADD_NEW_BOARD'
+const ADD_NEW_LIST = 'ADD_NEW_LIST'
 
 
-const initialState: IBoardsCollection = [
-  {
-    id: 1,
-    name: 'test roard',
-    lists: [{
+const initialState: IBoardsState = {
+  boards: [
+    {
       id: 1,
-      name: 'list 1',
-      tasks: [{
-        id: 1,
-        isDone: true,
-        taskName: 'first task'
-      },{
-        id: 2,
-        isDone: false,
-        taskName: 'not first task'
-      },{
-        id: 3,
-        isDone: false,
-        taskName: 'not first task'
-      }]
-    }]
-  }, {
-    id: 2,
-    name: 'test roard',
-    lists: [{
-      id: 1,
-      name: 'list 1',
-      tasks: [{
-        id: 1,
-        isDone: true,
-        taskName: 'first task'
-      },{
-        id: 2,
-        isDone: false,
-        taskName: 'not first task'
-      },{
-        id: 3,
-        isDone: false,
-        taskName: 'not first task'
-      }]
-    }]
-  }
-]
+      name: 'First board',
+      lists: [
+        {
+          id: 1,
+          name: 'first list',
+          tasks: [
+            {
+              id: 1,
+              taskName: 'todo reducer',
+              isDone: false
+            },
+            {
+              id: 2,
+              taskName: 'drink juce',
+              isDone: true
+            }
+          ]
+        },
+        {
+          id: 2,
+          name: 'second list',
+          tasks: [
+            {
+              id: 1,
+              taskName: 'todo whatever',
+              isDone: true
+            },
+            {
+              id: 2,
+              taskName: 'drink juce',
+              isDone: true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: 2,
+      name: 'Second board',
+      lists: [
+        {
+          id: 1,
+          name: 'first list',
+          tasks: [
+            {
+              id: 1,
+              taskName: 'todo reducer',
+              isDone: false
+            },
+            {
+              id: 2,
+              taskName: 'drink juce',
+              isDone: true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
 
 let boardsReducer = (state = initialState, action: any) => {
   switch(action.type) {
     case 'ADD_NEW_BOARD':
-      return [
+      return {
         ...state,
+        boards: [
+          ...state.boards,
         {
-          id: state.length + 1,
+          id: state.boards.length + 1,
           name: action.name,
           lists: []
         }
-      ]
+      ]}
+    case 'ADD_NEW_LIST':
+      let changedBoard = state.boards[action.boardID]
+      changedBoard.lists.push(action.newList)
+      return {
+        ...state,
+        boards: [
+          changedBoard
+        ]
+      }
     default: 
       return state
   }
@@ -65,6 +98,14 @@ let boardsReducer = (state = initialState, action: any) => {
 
 export const addNewBoardAC = (name: string) => {
   return {type: ADD_NEW_BOARD, name}
+}
+
+export const addNewListAC = (name: string, boardID: number, newListID: number) => {
+  return {
+    type: ADD_NEW_LIST,
+    newList: {id: newListID, name, tasks:[]},
+    boardID
+  }
 }
 
 export default boardsReducer

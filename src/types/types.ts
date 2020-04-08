@@ -7,13 +7,15 @@ export type IListTask = {
 export type IList = {
   id: number
   name: string
-  tasks: Array<IListTask> | null
+  tasks: Array<IListTask> 
 }
 
 export type IBoard = {
   id: number 
   name: string
-  lists: Array<IList> | Array<null>
+  lists: Array<IList>
 }
 
-export type IBoardsCollection = Array<IBoard>
+export type IBoardsState = {
+  boards: Array<IBoard>
+}

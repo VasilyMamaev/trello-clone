@@ -12,7 +12,28 @@ code {
     monospace;
 }
 
-.BoardsCollectionWrapper {
-  display: flex;
+/* board */
 
+.board {
+padding: 1% 4%;
+}
+
+.board-header :first-child{
+width: 160px;
+height: 80px;
+padding: 10px;
+}
+
+.board-grid {
+display: grid;
+grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+grid-template-rows: 1fr 1fr;
+}
+
+.board-item {
+  
+}
+
+.board-item span{
+  text-transform: uppercase;
 }
