@@ -1,7 +1,7 @@
-import { IBoard } from "../types/types"
+import { IBoardsCollection } from './../types/types';
 
+const ADD_NEW_BOARD = 'ADD_NEW_BOARD'
 
-export type IBoardsCollection = Array<IBoard>
 
 const initialState: IBoardsCollection = [
   {
@@ -49,9 +49,22 @@ const initialState: IBoardsCollection = [
 
 let boardsReducer = (state = initialState, action: any) => {
   switch(action.type) {
+    case 'ADD_NEW_BOARD':
+      return [
+        ...state,
+        {
+          id: state.length + 1,
+          name: action.name,
+          lists: []
+        }
+      ]
     default: 
       return state
   }
+}
+
+export const addNewBoardAC = (name: string) => {
+  return {type: ADD_NEW_BOARD, name}
 }
 
 export default boardsReducer

@@ -10,8 +10,10 @@ export type IList = {
   tasks: Array<IListTask> | null
 }
 
- export type IBoard = {
+export type IBoard = {
   id: number 
   name: string
   lists: Array<IList> | Array<null>
 }
+
+export type IBoardsCollection = Array<IBoard>
