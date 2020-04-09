@@ -1,12 +1,14 @@
 import React from 'react'
 import { IList } from '../../types/types'
 import ListCreator from './list/list-creator'
+import List from './list/list'
 
 type PropTypes = {
   boardId: number
   boardName: string
   lists: Array<IList>
   addNewList: (name: string, boardID: number, newListID: number) => void
+  addNewTask: (name: string, boardID: number, listID: number, isDone: boolean) => void
 }
 
 const Board: React.FC<PropTypes> = (props) => {
@@ -20,22 +22,13 @@ const Board: React.FC<PropTypes> = (props) => {
         <div className="board-item">
           <ListCreator boardId={props.boardId} addNewList={props.addNewList} newListID={props.lists.length + 1}/>
         </div>
-        { props.lists.map((item) => {
+        {props.lists.map((item, i) => {
           return (
-            <div className="board-item" key={item.id + item.name}>
-              <div className="card blue-grey darken-1">
-                <div className="card-content white-text">
-                  <span className="card-title">{item.name}</span>
-          <p>{item.id}</p>
-                </div>
-                <div className="card-action">
-                  <b >This is a link</b>
-                  <b >This is a link</b>
-                </div>
-              </div>
+            <div className="board-item" key={item.id}>
+              <List listInfo={props.lists[i]} addNewTask={props.addNewTask} boardId={props.boardId}/>
             </div>
           )
-        })}
+          })}
       </div>
       
     </div>

@@ -1,8 +1,8 @@
-import { IBoardsState } from './../types/types';
+import { IBoardsState, IListTask, IList } from './../types/types';
 
 const ADD_NEW_BOARD = 'ADD_NEW_BOARD'
 const ADD_NEW_LIST = 'ADD_NEW_LIST'
-
+const ADD_NEW_TASK = 'ADD_NEW_TASK'
 
 const initialState: IBoardsState = {
   boards: [
@@ -69,7 +69,7 @@ const initialState: IBoardsState = {
   ]
 }
 
-let boardsReducer = (state = initialState, action: any) => {
+let boardsReducer = (state = initialState, action: ActionsType) => {
   switch(action.type) {
     case 'ADD_NEW_BOARD':
       return {
@@ -83,29 +83,74 @@ let boardsReducer = (state = initialState, action: any) => {
         }
       ]}
     case 'ADD_NEW_LIST':
-      let changedBoard = state.boards[action.boardID]
-      changedBoard.lists.push(action.newList)
+      let newBoards = state.boards
+      newBoards[action.boardID].lists.push(action.newList)
       return {
         ...state,
-        boards: [
-          changedBoard
-        ]
+       boards: [...newBoards]
+      }
+    case 'ADD_NEW_TASK':
+      return {
+        ...state,
+        boards: [...state.boards.map((item,i) => {
+          if (i === action.boardID) {
+            item.lists.map((item,i) => {
+              if (i === action.listID - 1) {
+                item.tasks.push(action.newTask)
+              }
+              return item
+            })
+            return item
+          }
+          return item
+        })]
       }
     default: 
       return state
   }
 }
 
-export const addNewBoardAC = (name: string) => {
+
+type AddNewBoardType = {
+  type: typeof ADD_NEW_BOARD
+  name: string
+}
+export const addNewBoardAC = (name: string): AddNewBoardType => {
   return {type: ADD_NEW_BOARD, name}
 }
 
-export const addNewListAC = (name: string, boardID: number, newListID: number) => {
+type AddNewListType = {
+  type: typeof ADD_NEW_LIST
+  newList: IList
+  boardID: number
+}
+export const addNewListAC = (name: string, boardID: number, newListID: number): AddNewListType => {
   return {
     type: ADD_NEW_LIST,
     newList: {id: newListID, name, tasks:[]},
     boardID
   }
 }
+
+type AddNewTaskType = {
+  type: typeof ADD_NEW_TASK
+  boardID: number
+  listID: number
+  newTask: IListTask
+}
+export const addNewTaskAC = (name: string, boardID: number, listID: number, isDone: boolean = false): AddNewTaskType => {
+  return {
+    type: ADD_NEW_TASK,
+    boardID,
+    listID,
+    newTask: {
+      id: Date.now(),
+      taskName: name,
+      isDone
+    }
+  }
+}
+
+type ActionsType = AddNewBoardType | AddNewListType | AddNewTaskType
 
 export default boardsReducer

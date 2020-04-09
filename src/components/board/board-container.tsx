@@ -4,13 +4,14 @@ import { AppStateType } from '../../redux/redux-store'
 import Board from './board'
 import { connect } from 'react-redux'
 import { IBoard } from '../../types/types'
-import { addNewListAC } from '../../redux/board-reducer'
+import { addNewListAC, addNewTaskAC } from '../../redux/board-reducer'
 
 type MapStatePropsType = {
   boards: Array<IBoard>
 }
 type MapDispatchPropsType = {
   addNewList: (name: string, boardID: number, newListID: number) => void
+  addNewTask: (name: string, boardID: number, listID: number, isDone: boolean) => void
 }
 type IdType = {
   id: string
@@ -29,6 +30,7 @@ const BoardContainer = (props: PropsType) => {
       lists={lists}
       boardId={board}
       addNewList={props.addNewList}
+      addNewTask={props.addNewTask}
     />
   )
 }
@@ -39,5 +41,5 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
   }
 }
 
-export default connect(mapStateToProps, {addNewList: addNewListAC}) (withRouter(BoardContainer))
+export default connect(mapStateToProps, {addNewList: addNewListAC, addNewTask: addNewTaskAC}) (withRouter(BoardContainer))
 

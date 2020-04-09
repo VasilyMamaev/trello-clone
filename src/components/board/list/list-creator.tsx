@@ -23,7 +23,7 @@ const ListCreator= (props: PropsType) => {
     <div className="card green lighten-5">
       <div className="card-content black-text">
         <span className="card-title">enter list title</span>
-        <input onChange={inputChangeHandler}></input>
+        <input onChange={inputChangeHandler} value={inputState}></input>
       </div>
       <div className="card-action">
         <button onClick={buttonClickHandler} className="waves-effect waves-light  btn">create list</button>
