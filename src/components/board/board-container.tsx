@@ -1,6 +1,5 @@
 import React from 'react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
-import { AppStateType } from '../../redux/redux-store'
 import Board from './board'
 import { connect } from 'react-redux'
 import { IBoard } from '../../types/types'

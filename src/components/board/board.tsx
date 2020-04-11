@@ -2,6 +2,7 @@ import React from 'react'
 import { IList } from '../../types/types'
 import ListCreator from './list/list-creator'
 import List from './list/list'
+import { Link } from 'react-router-dom'
 
 type PropTypes = {
   boardId: number
@@ -27,9 +28,9 @@ const Board: React.FC<PropTypes> = (props) => {
 
   return (
     <div className="board">
-      <div className="board-header">
+      <Link to="/" className="board-header">
         <div className="waves-effect waves-light btn">{props.boardName}</div>
-      </div>
+      </Link>
       <div className="board-grid">
         <div className="board-item">
           <ListCreator boardId={props.boardId} addNewList={props.addNewList} newListID={props.lists.length + 1}/>

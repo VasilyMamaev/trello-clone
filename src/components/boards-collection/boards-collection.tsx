@@ -48,7 +48,7 @@ const BoardsCollection: React.FC<PropsType> = (props) => {
               <Link to={`/${item.id}`} className="waves-effect waves-light btn">open</Link>
               <button 
                 className="waves-effect waves-light btn red lighten-2"
-                onClick={() => props.deleteBoard(item.id)}
+                onClick={() => props.deleteBoard(item.id - 1)}
               >delete</button>
             </div>
           </div>

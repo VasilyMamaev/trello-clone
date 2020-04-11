@@ -51,23 +51,21 @@ const List = (props: PropsType) => {
             placeholder="text new task"
           ></input>
           <p>tasks:</p>
-          <ul >
+          <ul className="collection">
             {props.listInfo.tasks.map((task) => {
               return (
-                <li key={task.id}>
+                <li key={task.id} className={task.isDone ? "collection-item grey lighten-3 grey-text"
+                  : "collection-item teal darken-1 white-text"}>
                   <div
                     draggable="true"
                     onDragStart={(evt) => startDragHandler(evt, task.id)}
                     onClick={() => toggleTaskHandler(task.id, task.isDone)}
-                    className={task.isDone
-                        ? "waves-effect waves-light btn grey lighten-3 grey-text"
-                        : "waves-effect waves-light btn teal darken-3 "
-                      }
+                    className="task"
                   >
-                    <i className="material-icons right">{task.isDone ? "check" : "bookmark"}</i>
+                    <i className="material-icons">{task.isDone ? "check" : "bookmark"}</i>
                     {task.taskName}
                     <i 
-                      className="material-icons red-text left"
+                      className={`material-icons ${task.isDone? 'red-text' : 'black-text'}`}
                       onClick={() => props.deleteTask(props.boardId, props.listInfo.id, task.id)}
                     >clear</i>
                   </div>

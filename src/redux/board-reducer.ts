@@ -1,5 +1,4 @@
 import { IBoardsState, IListTask, IList } from './../types/types';
-import { AppStateType } from './redux-store';
 
 const ADD_NEW_BOARD = 'ADD_NEW_BOARD'
 const ADD_NEW_LIST = 'ADD_NEW_LIST'
@@ -10,47 +9,9 @@ const DELETE_BOARD = 'DELETE_BOARD'
 const DELETE_LIST = 'DELETE_LIST'
 const DELETE_TASK = 'DELETE_TASK'
 
-const initialState: IBoardsState = {
-  boards: [
-    {
-      id: 1,
-      name: 'First board',
-      lists: [
-        {
-          id: 654165416,
-          name: 'first list',
-          tasks: [
-            {
-              id: 12262,
-              taskName: 'todo reducer',
-              isDone: false
-            },
-            {
-              id: 21544687,
-              taskName: 'drink juce',
-              isDone: true
-            }
-          ]
-        },
-        {
-          id: 451616,
-          name: 'second list',
-          tasks: [
-            {
-              id: 541641615,
-              taskName: 'todo whatever',
-              isDone: true
-            },
-            {
-              id: 6541674165,
-              taskName: 'drink juce',
-              isDone: true
-            }
-          ]
-        }
-      ]
-    }]
-  }
+const initialState: IBoardsState =  {
+  boards: []
+}
 
 let boardsReducer = (state = initialState, action: ActionsType) => {
   switch(action.type) {
@@ -146,7 +107,7 @@ let boardsReducer = (state = initialState, action: ActionsType) => {
       return {
         ...state,
         boards: [
-          ...state.boards.filter(item => item.id !== action.boardId)
+          ...state.boards.filter(item => item.id - 1 !== action.boardId)
         ]
       }      
     case 'DELETE_LIST':

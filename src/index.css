@@ -58,3 +58,8 @@ code {
 .board-item span {
   text-transform: uppercase;
 }
+
+.task {
+  display: flex;
+  justify-content: space-around;
+}

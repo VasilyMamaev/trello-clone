@@ -1,7 +1,6 @@
 import React from 'react'
 import BoardsCollection from './boards-collection'
 import { connect } from 'react-redux'
-import { AppStateType } from '../../redux/redux-store'
 import { IBoard } from '../../types/types'
 import { addNewBoardAC, deleteBoardAC } from '../../redux/board-reducer'
 
