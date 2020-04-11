@@ -14,19 +14,25 @@ const ListCreator= (props: PropsType) => {
     setInputState(evt.target.value)
   }
 
-  const buttonClickHandler = ( ) => {
+  const confirmInputHandler = ( ) => {
     props.addNewList(inputState, props.boardId, props.newListID)
     setInputState('')
+  }
+
+  const confirmInputKeyHandler = (evt: React.KeyboardEvent) => {
+    if (evt.key === 'Enter') {
+      confirmInputHandler()
+    }
   }
 
   return (
     <div className="card green lighten-5">
       <div className="card-content black-text">
         <span className="card-title">enter list title</span>
-        <input onChange={inputChangeHandler} value={inputState}></input>
+        <input onChange={inputChangeHandler} onKeyPress={confirmInputKeyHandler} value={inputState}></input>
       </div>
       <div className="card-action">
-        <button onClick={buttonClickHandler} className="waves-effect waves-light  btn">create list</button>
+        <button onClick={confirmInputHandler} className="waves-effect waves-light btn">create list</button>
       </div>
     </div>
   )

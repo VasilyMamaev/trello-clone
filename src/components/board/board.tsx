@@ -8,10 +8,20 @@ type PropTypes = {
   boardName: string
   lists: Array<IList>
   addNewList: (name: string, boardID: number, newListID: number) => void
-  addNewTask: (name: string, boardID: number, listID: number, isDone: boolean) => void
+  addNewTask: (name: string, boardID: number, listID: number) => void
+  toggleTask: (boardID: number, listID: number, taskID: number, isDone: boolean) => void
+  moveTask: (taskId: number, forsakenListId: number, newListId: number, boardId: number) => void
 }
 
 const Board: React.FC<PropTypes> = (props) => {
+
+  const dropHandler = (evt: React.DragEvent, listId: number) => {
+      evt.preventDefault()
+
+      const [recivedTask, recivedList] = evt.dataTransfer.getData('taskId,listId').split(',')
+      
+      props.moveTask(Number(recivedTask), Number(recivedList), listId, props.boardId)
+  }
 
   return (
     <div className="board">
@@ -24,8 +34,13 @@ const Board: React.FC<PropTypes> = (props) => {
         </div>
         {props.lists.map((item, i) => {
           return (
-            <div className="board-item" key={item.id}>
-              <List listInfo={props.lists[i]} addNewTask={props.addNewTask} boardId={props.boardId}/>
+            <div onDrop={(evt) => dropHandler(evt, item.id)} onDragOver={(evt) => evt.preventDefault()} className="board-item" key={item.id}>
+              <List 
+                listInfo={props.lists[i]}
+                addNewTask={props.addNewTask}
+                boardId={props.boardId}
+                toggleTask={props.toggleTask}
+              />
             </div>
           )
           })}

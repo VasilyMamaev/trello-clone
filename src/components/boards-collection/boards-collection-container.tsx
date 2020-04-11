@@ -24,7 +24,7 @@ const BoardsCollectionContainer: React.FC<PropsType> = (props) => {
   )
 }
 
-const mapStateToProps = (state: AppStateType): MapStatePropsType => {
+const mapStateToProps = (state: any): MapStatePropsType => {
   return {
     boards: state.boards.boards
   } 

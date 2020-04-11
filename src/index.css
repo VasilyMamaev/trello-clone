@@ -12,28 +12,49 @@ code {
     monospace;
 }
 
-/* board */
+/* Header */
 
-.board {
-padding: 1% 4%;
+.header-wrapper {
+  padding-left: 2%;
+  padding-right: 2%;
 }
 
-.board-header :first-child{
-width: 160px;
-height: 80px;
-padding: 10px;
+/* BoardsCollection */
+
+.boards-wrapper {
+  padding: 2%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.boards {
+  margin: 10px;
+}
+
+.boars-buttons {
+  display: flex;
+}
+
+/* Board */
+
+.board {
+  padding: 1% 4%;
+}
+
+.board-header :first-child {
+  font-size: 20px;
+  width: 160px;
+  height: 60px;
+  padding: 10px;
 }
 
 .board-grid {
-display: grid;
-grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-grid-template-rows: 1fr 1fr;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
 }
 
-.board-item {
-  
-}
-
-.board-item span{
+.board-item span {
   text-transform: uppercase;
 }

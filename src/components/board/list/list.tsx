@@ -4,7 +4,8 @@ import { IList } from '../../../types/types'
 type PropsType = {
   listInfo: IList
   boardId: number
-  addNewTask: (name: string, boardID: number, listID: number, isDone: boolean) => void
+  addNewTask: (name: string, boardID: number, listID: number) => void
+  toggleTask: (boardID: number, listID: number, taskID: number, isDone: boolean) => void
 }
 
 const List = (props: PropsType) => {
@@ -15,11 +16,23 @@ const List = (props: PropsType) => {
     setInputState(evt.target.value)
   }
 
-  const confirmInputHandler = (evt: React.KeyboardEvent) => {
-    if (evt.key === 'Enter') {
-      props.addNewTask(inputState, props.boardId, props.listInfo.id, false)
+  const confirmInputHandler = () => {
+      props.addNewTask(inputState, props.boardId, props.listInfo.id)
       setInputState('')
+  }
+
+  const confirmInputKeyHandler = (evt: React.KeyboardEvent) => {
+    if (evt.key === 'Enter') {
+      confirmInputHandler()
     }
+  }
+
+  const toggleTaskHandler = (taskID: number, isDone: boolean) => {
+    props.toggleTask(props.boardId, props.listInfo.id, taskID, isDone)
+  }
+
+  const startDragHandler = (evt: React.DragEvent, id: number) => {
+    evt.dataTransfer.setData('taskId,listId', `${id},${props.listInfo.id}`)
   }
 
   return (
@@ -27,27 +40,35 @@ const List = (props: PropsType) => {
       <div className="card blue-grey lighten-5">
         <div className="card-content black-text">
           <span className="card-title">{props.listInfo.name}</span>
-          <p>tasks:</p>
           <input 
+            maxLength={20}
             value={inputState}
             onChange={changeInputHandler}
-            onKeyPress={confirmInputHandler}
+            onKeyPress={confirmInputKeyHandler}
             placeholder="text new task"
           ></input>
-          <ul>
-
+          <p>tasks:</p>
+          <ul >
+            {props.listInfo.tasks.map((task) => {
+              return (
+                <li key={task.id}>
+                  <button
+                    draggable="true"
+                    onDragStart={(evt) => startDragHandler(evt, task.id)}
+                    onClick={() => toggleTaskHandler(task.id, task.isDone)}
+                    className={task.isDone ? "waves-effect waves-light btn grey lighten-3 grey-text" : "waves-effect waves-light btn teal darken-3 "}
+                  >
+                    <i className="material-icons right">{task.isDone ? "check" : "bookmark"}</i>
+                    {task.taskName}
+                  </button>
+                </li>
+              )
+            })}
           </ul>
-          {props.listInfo.tasks.map((task) => {
-            return <li key={task.id}>
-              {task.isDone
-               ? <button className="waves-effect waves-light btn green lighten-3 black-text"><i className="material-icons right">check</i>{task.taskName}</button>
-               : <button className="waves-effect waves-light btn blue lighten-3 black-text"><i className="material-icons right">bookmark</i>{task.taskName}</button>
-              }
-            </li>
-          })}
         </div>
         <div className="card-action">
-          <b >delete list</b>
+          <button className="waves-effect waves-light btn" onClick={confirmInputHandler} >crate task</button>
+          <button className="waves-effect waves-light btn red lighten-2" >delete list</button>
         </div>
       </div>
     </div>
