@@ -6,6 +6,8 @@ type PropsType = {
   boardId: number
   addNewTask: (name: string, boardID: number, listID: number) => void
   toggleTask: (boardID: number, listID: number, taskID: number, isDone: boolean) => void
+  deleteTask: (boardId: number, listId: number, taskId: number) => void
+  deleteList: (boardId: number, listId: number) => void
 }
 
 const List = (props: PropsType) => {
@@ -35,6 +37,7 @@ const List = (props: PropsType) => {
     evt.dataTransfer.setData('taskId,listId', `${id},${props.listInfo.id}`)
   }
 
+
   return (
     <div className="board-item" >
       <div className="card blue-grey lighten-5">
@@ -52,15 +55,22 @@ const List = (props: PropsType) => {
             {props.listInfo.tasks.map((task) => {
               return (
                 <li key={task.id}>
-                  <button
+                  <div
                     draggable="true"
                     onDragStart={(evt) => startDragHandler(evt, task.id)}
                     onClick={() => toggleTaskHandler(task.id, task.isDone)}
-                    className={task.isDone ? "waves-effect waves-light btn grey lighten-3 grey-text" : "waves-effect waves-light btn teal darken-3 "}
+                    className={task.isDone
+                        ? "waves-effect waves-light btn grey lighten-3 grey-text"
+                        : "waves-effect waves-light btn teal darken-3 "
+                      }
                   >
                     <i className="material-icons right">{task.isDone ? "check" : "bookmark"}</i>
                     {task.taskName}
-                  </button>
+                    <i 
+                      className="material-icons red-text left"
+                      onClick={() => props.deleteTask(props.boardId, props.listInfo.id, task.id)}
+                    >clear</i>
+                  </div>
                 </li>
               )
             })}
@@ -68,7 +78,10 @@ const List = (props: PropsType) => {
         </div>
         <div className="card-action">
           <button className="waves-effect waves-light btn" onClick={confirmInputHandler} >crate task</button>
-          <button className="waves-effect waves-light btn red lighten-2" >delete list</button>
+          <button 
+            className="waves-effect waves-light btn red lighten-2"
+            onClick={() => props.deleteList(props.boardId, props.listInfo.id)}
+          >delete list</button>
         </div>
       </div>
     </div>

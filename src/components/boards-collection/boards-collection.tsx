@@ -5,6 +5,7 @@ import { IBoard } from '../../types/types'
 type PropsType = {
   boards: Array<IBoard>
   addNewBoard: (name: string) => void
+  deleteBoard: (boardId: number) => void
 }
 
 const BoardsCollection: React.FC<PropsType> = (props) => {
@@ -45,7 +46,10 @@ const BoardsCollection: React.FC<PropsType> = (props) => {
             </div>
             <div className="card-action boars-buttons">
               <Link to={`/${item.id}`} className="waves-effect waves-light btn">open</Link>
-              <button className="waves-effect waves-light btn red lighten-2" >delete</button>
+              <button 
+                className="waves-effect waves-light btn red lighten-2"
+                onClick={() => props.deleteBoard(item.id)}
+              >delete</button>
             </div>
           </div>
         )

@@ -8,9 +8,11 @@ type PropTypes = {
   boardName: string
   lists: Array<IList>
   addNewList: (name: string, boardID: number, newListID: number) => void
+  deleteList: (boardId: number, listId: number) => void
   addNewTask: (name: string, boardID: number, listID: number) => void
   toggleTask: (boardID: number, listID: number, taskID: number, isDone: boolean) => void
   moveTask: (taskId: number, forsakenListId: number, newListId: number, boardId: number) => void
+  deleteTask: (boardId: number, listId: number, taskId: number) => void
 }
 
 const Board: React.FC<PropTypes> = (props) => {
@@ -40,6 +42,8 @@ const Board: React.FC<PropTypes> = (props) => {
                 addNewTask={props.addNewTask}
                 boardId={props.boardId}
                 toggleTask={props.toggleTask}
+                deleteTask={props.deleteTask}
+                deleteList={props.deleteList}
               />
             </div>
           )

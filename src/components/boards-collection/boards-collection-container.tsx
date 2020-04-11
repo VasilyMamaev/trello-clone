@@ -3,13 +3,14 @@ import BoardsCollection from './boards-collection'
 import { connect } from 'react-redux'
 import { AppStateType } from '../../redux/redux-store'
 import { IBoard } from '../../types/types'
-import { addNewBoardAC } from '../../redux/board-reducer'
+import { addNewBoardAC, deleteBoardAC } from '../../redux/board-reducer'
 
 type MapStatePropsType = {
   boards: Array<IBoard>
 }
 type MapDispatchPropsType = {
   addNewBoard: (name: string) => void
+  deleteBoard: (boardId: number) => void
 }
 type PropsType = MapStatePropsType & MapDispatchPropsType
 
@@ -20,6 +21,7 @@ const BoardsCollectionContainer: React.FC<PropsType> = (props) => {
     <BoardsCollection 
       boards={props.boards}
       addNewBoard={props.addNewBoard}
+      deleteBoard={props.deleteBoard}
     />
   )
 }
@@ -30,4 +32,7 @@ const mapStateToProps = (state: any): MapStatePropsType => {
   } 
 }
 
-export default connect(mapStateToProps,{addNewBoard: addNewBoardAC}) (BoardsCollectionContainer)
+export default connect(mapStateToProps,{
+  addNewBoard: addNewBoardAC,
+  deleteBoard: deleteBoardAC
+}) (BoardsCollectionContainer)

@@ -6,6 +6,9 @@ const ADD_NEW_LIST = 'ADD_NEW_LIST'
 const ADD_NEW_TASK = 'ADD_NEW_TASK'
 const TOGGLE_LISTS_TASK = 'TOGGLE_LISTS_TASK'
 const MOVE_TASK = 'MOVE_TASK'
+const DELETE_BOARD = 'DELETE_BOARD'
+const DELETE_LIST = 'DELETE_LIST'
+const DELETE_TASK = 'DELETE_TASK'
 
 const initialState: IBoardsState = {
   boards: [
@@ -139,6 +142,42 @@ let boardsReducer = (state = initialState, action: ActionsType) => {
           })
         ]
       }
+    case 'DELETE_BOARD':
+      return {
+        ...state,
+        boards: [
+          ...state.boards.filter(item => item.id !== action.boardId)
+        ]
+      }      
+    case 'DELETE_LIST':
+      return {
+        ...state,
+        boards: [
+          ...state.boards.map((item) => {
+          if (item.id - 1 === action.boardId) {
+            item.lists = item.lists.filter(item => item.id !== action.listId)
+          }
+          return item
+        })
+        ]
+      }
+    case 'DELETE_TASK':
+      return {
+          ...state,
+          boards: [
+            ...state.boards.map((item) => {
+            if (item.id - 1 === action.boardId) {
+              item.lists.map((item) => {
+                if (item.id === action.listId) {
+                  item.tasks = item.tasks.filter(item => item.id !== action.taskId)
+                }
+                return item
+              })
+            }
+            return item
+          })
+          ]
+        }
     default: 
       return state
   }
@@ -208,6 +247,34 @@ export const moveTaskAC = (taskId: number, forsakenListId: number, newListId: nu
   }
 }
 
-type ActionsType = AddNewBoardType | AddNewListType | AddNewTaskType | toggleListsTaskType | MoveTaskType
+type DeleteBoardType = {type: typeof DELETE_BOARD, boardId: number}
+export const deleteBoardAC = (boardId: number): DeleteBoardType => {
+  return {
+    type: DELETE_BOARD,
+    boardId
+  }
+} 
+
+type DeleteListType = {type: typeof DELETE_LIST, boardId: number, listId: number}
+export const deleteListAC = (boardId: number, listId: number): DeleteListType => {
+  return {
+    type: DELETE_LIST,
+    boardId,
+    listId,
+  }
+} 
+
+type DeleteTaskType = {type: typeof DELETE_TASK, boardId: number, listId: number, taskId: number}
+export const deleteTaskAC = (boardId: number, listId: number, taskId: number): DeleteTaskType => {
+  return {
+    type: DELETE_TASK,
+    boardId,
+    listId,
+    taskId
+  }
+}
+
+type ActionsType = AddNewBoardType | AddNewListType | AddNewTaskType | toggleListsTaskType |
+  MoveTaskType | DeleteBoardType | DeleteListType | DeleteTaskType
 
 export default boardsReducer
